@@ -23,4 +23,5 @@ nodo::nodo()
     siguiente = nullptr;
     anterior = nullptr;
 }
+
 #endif

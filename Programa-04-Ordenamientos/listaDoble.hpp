@@ -14,21 +14,21 @@ class listaDoble
 {
 public:
     listaDoble();
+    listaDoble(listaDoble *);
     nodo *h; // Puntero que apunta a inicio
     nodo *t; // Puntero que apunta a final
     void inicializa();
     void insertaInicio(Producto);
     void mostrarListaStartToEnd();
-    void tamanoLista();
+    int tamanoLista();
     void eliminarElemento(int);
     void eliminarLista();
     void burbuja();
     void burbujaMejorada();
-    void quick();
-    void merge();
+    void quick(listaDoble *l);
+    void merge(int, listaDoble *);
     void insertSort();
     void select();
-    void shell();
 };
 
 listaDoble::listaDoble()
@@ -37,6 +37,11 @@ listaDoble::listaDoble()
     t = nullptr; // Apuntador a tail
 }
 
+listaDoble::listaDoble(listaDoble *l)
+{
+    h = nullptr; // Inicia apuntando a null
+    t = nullptr; // Apuntador a tail
+}
 void listaDoble::inicializa()
 {
     h = nullptr;
@@ -59,7 +64,6 @@ void listaDoble::insertaInicio(Producto n)
         h = nuevo_nodo;
     }
     nuevo_nodo->dato.id = id;
-    cout << "Se ha agregado con la ID: " << id << endl;
     id++;
 }
 
@@ -86,7 +90,7 @@ void listaDoble::mostrarListaStartToEnd()
     }
 }
 
-void listaDoble::tamanoLista()
+int listaDoble::tamanoLista()
 {
     int i = 0;
     nodo *actual = new nodo();
@@ -97,6 +101,7 @@ void listaDoble::tamanoLista()
         actual = actual->siguiente;
     }
     numElementos = i;
+    return i;
 }
 
 void listaDoble::eliminarElemento(int n)
@@ -217,12 +222,132 @@ void listaDoble::burbujaMejorada()
     cout << "Ordenado por burbuja mejorada:\n";
     listaDoble::mostrarListaStartToEnd();
 }
-void listaDoble::quick()
+
+void listaDoble::quick(listaDoble *l)
 {
+    nodo *piv;
+    nodo *pivGuardar;
+    nodo *aux;
+
+    listaDoble *mayores = new listaDoble;
+    listaDoble *menores = new listaDoble;
+
+    if (l->h)
+    {
+        piv = l->h;
+        pivGuardar = new nodo(l->h->dato);
+        aux = l->h->siguiente;
+
+        while (aux)
+        {
+            if (aux->dato.precio < piv->dato.precio)
+            {
+                menores->insertaInicio(aux->dato);
+            }
+            else
+            {
+                mayores->insertaInicio(aux->dato);
+            }
+            aux = aux->siguiente;
+        }
+
+        quick(menores);
+        quick(mayores);
+
+        aux = l->h;
+        nodo *men = menores->h;
+        while (men)
+        {
+            aux->dato = men->dato;
+            aux = aux->siguiente;
+            men = men->siguiente;
+        }
+        aux->dato = pivGuardar->dato;
+        aux = aux->siguiente;
+
+        nodo *may = mayores->h;
+        while (may)
+        {
+            aux->dato = may->dato;
+            aux = aux->siguiente;
+            may = may->siguiente;
+        }
+    }
 }
-void listaDoble::merge()
+
+void listaDoble::merge(int tam, listaDoble *l)
 {
+    listaDoble *derecha = new listaDoble;
+    listaDoble *izquierda = new listaDoble;
+    nodo *aux = l->h;
+    int med = tam / 2;
+    int dif = tam % 2;
+    int i, j;
+    if (l->tamanoLista() > 1)
+    {
+        i = 0;
+        while (aux and i < med)
+        {
+            izquierda->insertaInicio(aux->dato);
+            i++;
+            aux = aux->siguiente;
+        }
+
+        j = 0;
+        while (aux and j < med + dif)
+        {
+            derecha->insertaInicio(aux->dato);
+            j++;
+            aux = aux->siguiente;
+        }
+
+        merge(izquierda->tamanoLista(), izquierda);
+        merge(derecha->tamanoLista(), derecha);
+
+        nodo *iz = izquierda->h;
+        nodo *de = derecha->h;
+        aux = l->h;
+        i = 0;
+        // mergear
+        while (iz and de)
+        {
+            if (iz->dato.precio < de->dato.precio)
+            {
+                aux->dato = iz->dato;
+                iz = iz->siguiente;
+                aux = aux->siguiente;
+            }
+            else
+            {
+                aux->dato = de->dato;
+                de = de->siguiente;
+                aux = aux->siguiente;
+            }
+        }
+        // guardar el resto de la izq
+        if (iz)
+        {
+            while (iz)
+            {
+                aux->dato = iz->dato;
+                iz = iz->siguiente;
+                aux = aux->siguiente;
+            }
+        }
+
+        // guardar el resto de la der
+        if (de)
+        {
+            while (de)
+            {
+                aux->dato = de->dato;
+                de = de->siguiente;
+                aux = aux->siguiente;
+            }
+        }
+    }
 }
+
 void listaDoble::insertSort()
 {
     listaDoble::tamanoLista();
@@ -250,6 +375,7 @@ void listaDoble::insertSort()
     cout << "Ordenado por insercion:\n";
     listaDoble::mostrarListaStartToEnd();
 }
+
 void listaDoble::select()
 {
     listaDoble::tamanoLista();
@@ -278,11 +404,5 @@ void listaDoble::select()
     }
     cout << "Ordenado por Seleccion:\n";
     listaDoble::mostrarListaStartToEnd();
-}
-void listaDoble::shell()
-{
-    listaDoble::tamanoLista();
-    nodo *actual = new nodo();
-    actual = h;
 }
 #endif

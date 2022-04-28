@@ -30,11 +30,10 @@ void menu()
         cout << "\nORDENAMIENTOS\n";
         cout << "5. Burbuja\n";
         cout << "6. Burbuja mejorada\n";
-        cout << "7. Quick\n"; // TODO
-        cout << "8. Merge\n"; // TODO
+        cout << "7. Quick\n"; // TODO arreglar lo de las id q se mueven
+        cout << "8. Merge\n"; // TODO arreglar lo mismo de las ID
         cout << "9. Insert\n";
         cout << "10. Select\n"; 
-        cout << "11. Shell\n";  // TODO ya lo enseño
         cout << "0. Salir\n\n";
         cin >> opc;
         switch (opc)
@@ -76,7 +75,7 @@ void menu()
             lista->mostrarListaStartToEnd();
             break;
         case 3:
-            cout << "Ingrese la id del producto a eliminar: ";
+            cout << "Ingrese la id del producto a eliminar: \n(Si no la sabe puede dar en la opcion 2 del menu principal)\n";
             cin >> productoTemp.id;
             lista->eliminarElemento(productoTemp.id);
             break;
@@ -90,19 +89,19 @@ void menu()
             lista->burbujaMejorada();
             break;
         case 7:
-
+            lista->quick(lista);
             break;
         case 8:
-            lista->tamanoLista();
+        {
+            int tam = lista->tamanoLista();
+            lista->merge(tam, lista);
             break;
+        }
         case 9:
             lista->insertSort();
             break;
         case 10:
             lista->select();
-            break;
-        case 11:
-            lista->shell();
             break;
         case 0:
             cout << "Gracias por su preferencia\n";
