@@ -30,8 +30,8 @@ void menu()
         cout << "\nORDENAMIENTOS\n";
         cout << "5. Burbuja\n";
         cout << "6. Burbuja mejorada\n";
-        cout << "7. Quick\n"; // TODO arreglar lo de las id q se mueven
-        cout << "8. Merge\n"; // TODO arreglar lo mismo de las ID
+        cout << "7. Quick\n"; 
+        cout << "8. Merge\n"; 
         cout << "9. Insert\n";
         cout << "10. Select\n"; 
         cout << "0. Salir\n\n";

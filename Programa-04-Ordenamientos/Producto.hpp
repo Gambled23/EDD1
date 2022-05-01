@@ -16,14 +16,15 @@ public:
     int id;
 };
 
-Producto::Producto()
-{
-
-}
 Producto::Producto(string _nombre, float _precio, int _id)
 {
     nombre = _nombre;
     precio = _precio;
     id = _id;
+}
+
+Producto::Producto()
+{
+
 }
 #endif

@@ -372,8 +372,6 @@ void listaDoble::insertSort()
         }
     }
     system("cls");
-    cout << "Ordenado por insercion:\n";
-    listaDoble::mostrarListaStartToEnd();
 }
 
 void listaDoble::select()
@@ -402,7 +400,5 @@ void listaDoble::select()
 
         aux = aux->siguiente; // Recorrer un nodo en el "bloqueo" (pag 7 investigacion 7)
     }
-    cout << "Ordenado por Seleccion:\n";
-    listaDoble::mostrarListaStartToEnd();
 }
 #endif
